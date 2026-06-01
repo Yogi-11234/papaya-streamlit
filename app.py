@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+
 
 from utils.model_loader import load_model
 from utils.predict import predict_image
@@ -41,4 +43,15 @@ if uploaded_file:
 
     st.info(
         f"Confidence: {result['confidence']:.2f}%"
+    )
+
+    st.subheader("Probabilitas Semua Kelas")
+
+    prob_df = pd.DataFrame(
+        result["all_probs"].items(),
+        columns=["Class", "Probability"]
+    )
+
+    st.bar_chart(
+        prob_df.set_index("Class")
     )
